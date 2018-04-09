@@ -39,6 +39,7 @@ class VaspReader
 			else
 				abort("ERROR: #{new_crd_sys} is not valid for vasp coordination system.")
 			end
+		end
 		puts("#{new_crd_sys} has already been set.")
 	end
 	
@@ -108,7 +109,7 @@ class VaspReader
 #=========================================================================================
 
 	def initialize( filename=nil )
-		unless( filename == nil ) then
+		unless( filename == nil )
 			@filename = filename
 			read_file()
 			check_invalid_coordinates( "initialize" )
@@ -130,7 +131,7 @@ class VaspReader
 		@atom     = poscar_str[5].split
 		@atom_num = poscar_str[6].split.map{ |s| s.to_i }
 		@dyn      = poscar_str[7][0].casecmp("s")
-		if ( @dyn == false ) then
+		if ( @dyn == false )
 			@crd_sys  = poscar_str[7]
 			@atom_crd = poscar_str[8..( total_atom_num() + 7 )].map{ |line| line.split[0..2].map{ |s| s.to_f } }
 			@dyn_crd = Array.new( total_atom_num() ){ Array.new( 3, "F" ) }
@@ -157,7 +158,7 @@ class VaspReader
 		poscar_str << "    " + @lattice.to_a.map{ |a| a.map{ |f| format( "% .16f", f ).to_s }.join("   ") }.join("\n    ")
 		poscar_str << "   " + @atom.join("   ")
 		poscar_str << "  " + @atom_num.map{ |f| format( "%4d", f ).to_s }.join("  ")
-		if ( @dyn == false ) then
+		if ( @dyn == false )
 			poscar_str << @crd_sys
 			poscar_str << " " + @atom_crd.to_a.map{ |a| a.map{ |f| format( "% .16f", f ).to_s }.join(" ") } .join("\n ")
 		else
