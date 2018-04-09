@@ -71,10 +71,10 @@ class VaspReader
 	end
 	
 	def set_dyn(init_dyn_crd=["T", "T", "T"])
-		if(dyn == true)
+		if(@dyn == true)
 			puts("Selective dynamics flag has already set.")
 		else
-			dyn = true
+			@dyn = true
 			set_dyn_crd(init_dyn_crd)
 		end
 	end
@@ -130,8 +130,8 @@ class VaspReader
 		@lattice  = poscar_str[2..4].map{ |line| line.split.map{ |s| s.to_f } }
 		@atom     = poscar_str[5].split
 		@atom_num = poscar_str[6].split.map{ |s| s.to_i }
-		@dyn      = poscar_str[7][0].casecmp("s")
-		if ( @dyn != 0 )
+		@dyn      = (poscar_str[7][0].casecmp("s") == 0)
+		if ( @dyn == false )
 			@crd_sys  = poscar_str[7]
 			@atom_crd = poscar_str[8..( total_atom_num() + 7 )].map{ |line| line.split[0..2].map{ |s| s.to_f } }
 			@dyn_crd = Array.new( total_atom_num() ){ Array.new( 3, "F" ) }
