@@ -87,13 +87,13 @@ class VaspReader
 	
 	def set_dyn_crd_with_range( range, dyn_crd=["T","T","T"] )
 		total_atom_num().times do |i|
-			unless( @atom_crd[i][0] > range[0] && @atom_crd[i][0] <= range[1] )
+			unless( @atom_crd[i][0] >= range[0] && @atom_crd[i][0] < range[1] )
 				next
 			end
-			unless( @atom_crd[i][1] > range[2] && @atom_crd[i][1] <= range[3] )
+			unless( @atom_crd[i][1] >= range[2] && @atom_crd[i][1] < range[3] )
 				next
 			end
-			unless( @atom_crd[i][2] > range[4] && @atom_crd[i][2] <= range[5] )
+			unless( @atom_crd[i][2] >= range[4] && @atom_crd[i][2] < range[5] )
 				next
 			end
 			@dyn_crd[i] = dyn_crd
