@@ -39,7 +39,7 @@ class VaspReader
 			else
 				abort("ERROR: #{new_crd_sys} is not valid for vasp coordination system.")
 			end
-		print("#{new_crd_sys} has already been set.")
+		puts("#{new_crd_sys} has already been set.")
 	end
 	
 	def to_direct()
@@ -71,7 +71,7 @@ class VaspReader
 	
 	def set_dyn(init_dyn_crd=["T", "T", "T"])
 		if(dyn == true)
-			print("Selective dynamics flag has already set.")
+			puts("Selective dynamics flag has already set.")
 		else
 			dyn = true
 			set_dyn_crd(init_dyn_crd)
@@ -100,7 +100,7 @@ class VaspReader
 	end
 	
 	def show_all()
-		print(write_format().reject{ |s| s.nil? }.join("\n"))
+		puts(write_format().reject{ |s| s.nil? }.join("\n"))
 	end
 	
 #=========================================================================================
