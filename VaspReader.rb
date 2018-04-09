@@ -131,7 +131,7 @@ class VaspReader
 		@atom     = poscar_str[5].split
 		@atom_num = poscar_str[6].split.map{ |s| s.to_i }
 		@dyn      = poscar_str[7][0].casecmp("s")
-		if ( @dyn == false )
+		if ( @dyn != 0 )
 			@crd_sys  = poscar_str[7]
 			@atom_crd = poscar_str[8..( total_atom_num() + 7 )].map{ |line| line.split[0..2].map{ |s| s.to_f } }
 			@dyn_crd = Array.new( total_atom_num() ){ Array.new( 3, "F" ) }
