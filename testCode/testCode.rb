@@ -85,4 +85,31 @@ puts("")
 
 poscar.write_poscar("POSCAR_output")
 
+#=========================================================================================
+# case 8: gen_sup method (direct)
+#=========================================================================================
+
+puts("case 8")
+
+direct = VaspReader.new("POSCAR")
+
+direct.gen_sup([2, 1, 1])
+direct.show_all()
+
+puts("")
+
+#=========================================================================================
+# case 9: gen_sup method (cartesian)
+#=========================================================================================
+
+puts("case 9")
+
+cartesian = VaspReader.new("POSCAR")
+cartesian.change_crd_sys("cartesian")
+
+cartesian.gen_sup([1, 2, 1])
+cartesian.show_all()
+
+puts("")
+
 __END__
