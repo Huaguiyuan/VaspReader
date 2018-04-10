@@ -174,6 +174,80 @@ class VaspReader
 	end
 	
 #=========================================================================================
+# editing unit
+#=========================================================================================
+
+#=========================================================================================
+# gen_sup -- A method to generate supercell with larger periodicities.
+#=========================================================================================
+
+	def gen_sup( sup_vec )
+		@dyn = false
+		if(@crd_sys.casecmp("direct") == 0)
+			gen_sup_direct(sup_vec)
+		elsif(@crd_sys.casecmp("cartesian") == 0)
+			gen_sup_cartesian(sup_vec)
+		end
+	end
+	
+	def gen_sup_direct( sup_vec )
+		@atom_crd = gen_sup_direct_atom_crd( sup_vec )
+		@atom_num = gen_sup_atom_num( sup_vec )
+		@lattice  = gen_sup_lattice( sup_vec )
+	end
+	
+	def gen_sup_cartesian( sup_vec )
+		@atom_crd = gen_sup_cartesian_atom_crd( sup_vec )
+		@atom_num = gen_sup_atom_num( sup_vec )
+		# note: In gen_sup_cartesian method, @lattice must be processed at last.
+		@lattice  = gen_sup_lattice( sup_vec )
+	end
+	
+	def gen_sup_lattice( sup_vec )
+		return @lattice.map.with_index{ |a, i| a.map{ |f| f * sup_vec[i] } }
+	end
+	
+	def gen_sup_atom_num( sup_vec )
+		return @atom_num.map{ |f| f * sup_vec.inject(1){ |product, i| product * i } }
+	end
+
+	def gen_sup_direct_atom_crd( sup_vec )
+		gen_crd = []
+		@atom_crd.length.times do |i|
+			sup_vec[0].times do |a|
+			sup_vec[1].times do |b|
+			sup_vec[2].times do |c|
+				gen_crd << [ \
+					(@atom_crd[i][0] + a) / sup_vec[0], \
+					(@atom_crd[i][1] + b) / sup_vec[1], \
+					(@atom_crd[i][2] + c) / sup_vec[2]  \
+				]
+			end
+			end
+			end
+		end
+		return gen_crd
+	end
+	
+	def gen_sup_cartesian_atom_crd( sup_vec )
+		gen_crd = []
+		@atom_crd.length.times do |i|
+			sup_vec[0].times do |a|
+			sup_vec[1].times do |b|
+			sup_vec[2].times do |c|
+				gen_crd << [ \
+					@atom_crd[i][0] + a * lattice[0][0] + b * lattice[0][1] + c * lattice[0][2], \
+					@atom_crd[i][1] + a * lattice[1][0] + b * lattice[1][1] + c * lattice[1][2], \
+					@atom_crd[i][2] + a * lattice[2][0] + b * lattice[2][1] + c * lattice[2][2]  \
+				]
+			end
+			end
+			end
+		end
+		return gen_crd
+	end
+
+#=========================================================================================
 # chacking/error unit
 #=========================================================================================
 
