@@ -188,6 +188,7 @@ class VaspReader
 		elsif(@crd_sys.casecmp("cartesian") == 0)
 			gen_sup_cartesian(sup_vec)
 		end
+		check_invalid_coordinates("gen_sup")
 	end
 	
 	def gen_sup_direct( sup_vec )
