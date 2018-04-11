@@ -6,7 +6,7 @@
 #  coded by Taku MURAKAMI, graduate student at Shizuoka University.
 #=========================================================================================
 
-require_relative( "./VaspReader.rb" )
+require_relative( "../VaspReader.rb" )
 
 def expand_vacuum_layer( poscar, interlayer_point, expand_amount )
 	
