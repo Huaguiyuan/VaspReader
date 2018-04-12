@@ -35,7 +35,7 @@ if(__FILE__ == $0)
 	30.times do |i|
 		poscar = VaspReader.new( "POSCAR" )
 		poscar.change_crd_sys("cartesian")
-		expand_vacuum_layer( poscar, poscar.lattice[2][2] * 0.025, 0.05 * (i - 10) )
+		expand_vacuum_layer( poscar, poscar.lattice[2][2] * 0.025, 0.05 * (i - 20) )
 		poscar.write_poscar( "POSCAR" + (i + 1).to_s )
 	end
 end
