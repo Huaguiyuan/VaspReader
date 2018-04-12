@@ -174,6 +174,44 @@ class VaspReader
 	end
 	
 #=========================================================================================
+# normalize unit
+#=========================================================================================
+
+	def normalize()
+		 atom_crd.map!{ |a|
+		 	a.map{ |f|
+				if(f < 0)
+					return f + 1
+				elsif(f >=1)
+					return f - 1 
+				else 
+					return f
+				end 
+			}
+		}
+	end
+	
+	def unnormalize(ref_filename)
+		ref_poscar = VaspReader.new(ref_filename)
+		
+		# Add a code to check if two POSCAR correspond.
+		
+		atom_crd.map!.with_index{ |a, i|
+			a.map.with_index{ |f, j|
+				if((f - ref_poscar.atom_crd[i][j]).abs > 0.5)
+					if(f < 0.5)
+						return f + 1
+					elsif(f >= 0.5)
+						return f - 1
+					end
+				else
+					return f
+				end
+			}
+		}
+	end
+	
+#=========================================================================================
 # editing unit
 #=========================================================================================
 
