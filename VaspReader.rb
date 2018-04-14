@@ -295,17 +295,16 @@ class VaspReader
 		
 		# Add a code to check if two POSCAR correspond.
 		
-		tocar.unnormalize_poscar(ref_filename) unless(ref_filename == tocar.filename)
-		unnormalize_poscar(ref_filename) unless(ref_filename == @filename)
+		tocar.unnormalize(ref_filename) unless(ref_filename == tocar.filename)
+		unnormalize(ref_filename) unless(ref_filename == @filename)
 		
 		to_atom_crd = tocar.atom_crd
 		
 		index = 0
 		while(min + interval * index < max)
-			gen_crd = []
-			gen_crd << atom_crd.map.with_index{ |a, i|
+			gen_crd = atom_crd.map.with_index{ |a, i|
 				a.map.with_index{ |s, j|
-					( to_atom_crd[i][j] - s ) * ( min + inter * index ) + s
+					( to_atom_crd[i][j] - s ) * ( min + interval * index ) + s
 				}
 			}
 			tocar.atom_crd = gen_crd
