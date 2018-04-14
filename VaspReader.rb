@@ -301,7 +301,7 @@ class VaspReader
 		to_atom_crd = tocar.atom_crd
 		
 		index = 0
-		while(min + interval * index < max)
+		while(min + interval * index <= max)
 			gen_crd = atom_crd.map.with_index{ |a, i|
 				a.map.with_index{ |s, j|
 					( to_atom_crd[i][j] - s ) * ( min + interval * index ) + s
