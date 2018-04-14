@@ -285,6 +285,31 @@ class VaspReader
 		end
 		return gen_crd
 	end
+	
+#=========================================================================================
+# lerp_to -- A method to generate intermidiate structures by liner interpolation.
+#=========================================================================================
+
+	def lerp_to(min, max, interval, to_filename, ref_filename=@filename)
+		unnormalize_poscar( ref_filename ) unless(ref_filename == @filename)
+		tocar = VaspReader.new(to_filename)
+		
+		# Add a code to check if two POSCAR correspond.
+		
+		to_atom_crd = tocar.atom_crd
+		index = 0
+		while(min + interval * index < max)
+			gen_crd = []
+			gen_crd << atom_crd.map.with_index{ |a, i|
+				a.map.with_index{ |s, j|
+					( to_atom_crd[i][j] - s ) * ( min + inter * index ) + s
+				}
+			}
+			tocar.atom_crd = gen_crd
+			tocar.write_poscar( "POSCAR" + ( index + 1 ).to_s )
+			index += 1
+		end
+	end
 
 #=========================================================================================
 # chacking/error unit
