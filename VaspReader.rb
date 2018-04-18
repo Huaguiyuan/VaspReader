@@ -290,6 +290,7 @@ class VaspReader
 # lerp_to -- A method to generate intermidiate structures by liner interpolation.
 #=========================================================================================
 
+	# note: Configuration of POSCAR (scale, lattice or sel_dyn) written with this method reflects that of tocar.
 	def lerp_to(min, max, interval, to_filename, ref_filename=@filename)
 		tocar = VaspReader.new(to_filename)
 		
