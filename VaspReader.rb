@@ -194,7 +194,7 @@ class VaspReader
 	def unnormalize(ref_filename)
 		ref_poscar = VaspReader.new(ref_filename)
 		
-		# Add a code to check if two POSCAR correspond.
+		check_poscar_correspond( "unnormalize", ref_poscar )
 		
 		atom_crd.map!.with_index{ |a, i|
 			a.map.with_index{ |f, j|
@@ -294,7 +294,7 @@ class VaspReader
 	def lerp_to(min, max, interval, to_filename, ref_filename=@filename)
 		tocar = VaspReader.new(to_filename)
 		
-		# Add a code to check if two POSCAR correspond.
+		check_poscar_correspond( "lerp_to", tocar )
 		
 		tocar.unnormalize(ref_filename) unless(ref_filename == tocar.filename)
 		unnormalize(ref_filename) unless(ref_filename == @filename)
@@ -320,6 +320,10 @@ class VaspReader
 
 	def check_invalid_coordinates( status )
 		abort( "ERROR: Invalid coordinates in #{status}" ) unless( self.total_atom_num() == @atom_crd.length )
+	end
+	
+	def check_poscar_correspond( status, car )
+		abort( "ERROR: Some POSCARs do not correspond in #{status}" ) unless( self.total_atom_num() == car.total_atom_num() )
 	end
 	
 end
