@@ -192,13 +192,13 @@ class VaspReader
 	end
 	
 	def unnormalize(ref_filename)
-		ref_poscar = VaspReader.new(ref_filename)
+		refcar = VaspReader.new(ref_filename)
 		
-		check_poscar_correspond( "unnormalize", ref_poscar )
+		check_poscar_correspond( "unnormalize", refcar )
 		
 		atom_crd.map!.with_index{ |a, i|
 			a.map.with_index{ |f, j|
-				if((f - ref_poscar.atom_crd[i][j]).abs > 0.5)
+				if((f - refcar.atom_crd[i][j]).abs > 0.5)
 					if(f < 0.5)
 						f + 1
 					elsif(f >= 0.5)
