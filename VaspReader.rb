@@ -145,8 +145,8 @@ class VaspReader
 	end
 	
 	def set_atom_species()
-		atom.times do |i|
-			atom_num[i] do |j|
+		@atom.times do |i|
+			@atom_num[i] do |j|
 				@atom_species << atom[i]
 			end
 		end
