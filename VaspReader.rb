@@ -71,6 +71,15 @@ class VaspReader
 		return cartesian_atom_crd
 	end
 	
+	def set_atom_species()
+		@atom_species = []
+		@atom.length.times do |i|
+			@atom_num[i].times do |j|
+				@atom_species << atom[i]
+			end
+		end
+	end
+	
 	def set_dyn(init_dyn_crd=["T", "T", "T"])
 		if(@dyn == true)
 			puts("Selective dynamics flag has already set.")
@@ -141,15 +150,6 @@ class VaspReader
 			@crd_sys  = poscar_str[8]
 			@atom_crd    = poscar_str[9..( total_atom_num() + 8 )].map{ |line| line.split[0..2].map{ |s| s.to_f } }
 			@dyn_crd = poscar_str[9..( total_atom_num() + 8 )].map{ |line| line.split[3..5].map{ |s| s } }
-		end
-	end
-	
-	def set_atom_species()
-		@atom_species = []
-		@atom.length.times do |i|
-			@atom_num[i].times do |j|
-				@atom_species << atom[i]
-			end
 		end
 	end
 	
