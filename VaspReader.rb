@@ -12,16 +12,17 @@ class VaspReader
 #=========================================================================================
 
 	attr_accessor(
-		:filename, # read file name
-		:title,    # comment line
-		:scale,    # universal scaling factor
-		:lattice,  # lattice vectors
-		:atom,     # symbol of atoms
-		:atom_num, # number of atoms
-		:dyn,      # flag of 'Selective dynamics'
-		:crd_sys,  # flag of coordination system ('Cartesian' or 'Direct')
-		:atom_crd, # coordinates of atoms
-		:dyn_crd   # coordinates of selective dynamics
+		:filename,    # read file name
+		:title,       # comment line
+		:scale,       # universal scaling factor
+		:lattice,     # lattice vectors
+		:atom,        # symbol of atoms
+		:atom_num,    # number of atoms
+		:dyn,         # flag of 'Selective dynamics'
+		:crd_sys,     # flag of coordination system ('Cartesian' or 'Direct')
+		:atom_species # atom species for all atom coordinates
+		:atom_crd,    # coordinates of atoms
+		:dyn_crd      # coordinates of selective dynamics
 	)
 	
 	def total_atom_num()
@@ -113,6 +114,7 @@ class VaspReader
 			@filename = filename
 			read_file()
 			check_invalid_coordinates( "initialize" )
+			set_atom_species()
 		else
 			abort("ERROR: In VaspReader, You must specify the file name to load.")
 		end
@@ -139,6 +141,14 @@ class VaspReader
 			@crd_sys  = poscar_str[8]
 			@atom_crd    = poscar_str[9..( total_atom_num() + 8 )].map{ |line| line.split[0..2].map{ |s| s.to_f } }
 			@dyn_crd = poscar_str[9..( total_atom_num() + 8 )].map{ |line| line.split[3..5].map{ |s| s } }
+		end
+	end
+	
+	def set_atom_species()
+		atom.times do |i|
+			atom_num[i] do |j|
+				@atom_species << atom[i]
+			end
 		end
 	end
 	
