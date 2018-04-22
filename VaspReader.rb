@@ -12,17 +12,17 @@ class VaspReader
 #=========================================================================================
 
 	attr_accessor(
-		:filename,    # read file name
-		:title,       # comment line
-		:scale,       # universal scaling factor
-		:lattice,     # lattice vectors
-		:atom,        # symbol of atoms
-		:atom_num,    # number of atoms
-		:dyn,         # flag of 'Selective dynamics'
-		:crd_sys,     # flag of coordination system ('Cartesian' or 'Direct')
-		:atom_species # atom species for all atom coordinates
-		:atom_crd,    # coordinates of atoms
-		:dyn_crd      # coordinates of selective dynamics
+		:filename,     # read file name
+		:title,        # comment line
+		:scale,        # universal scaling factor
+		:lattice,      # lattice vectors
+		:atom,         # symbol of atoms
+		:atom_num,     # number of atoms
+		:dyn,          # flag of 'Selective dynamics'
+		:crd_sys,      # flag of coordination system ('Cartesian' or 'Direct')
+		:atom_species, # atom species for all atom coordinates
+		:atom_crd,     # coordinates of atoms
+		:dyn_crd       # coordinates of selective dynamics
 	)
 	
 	def total_atom_num()
@@ -145,8 +145,9 @@ class VaspReader
 	end
 	
 	def set_atom_species()
-		@atom.times do |i|
-			@atom_num[i] do |j|
+		@atom_species = []
+		@atom.length.times do |i|
+			@atom_num[i].times do |j|
 				@atom_species << atom[i]
 			end
 		end
